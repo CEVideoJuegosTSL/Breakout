@@ -30,12 +30,12 @@ public class MapGeneration : MonoBehaviour
 
     private IEnumerator SpawnBreaks(){
         int maxBricksGeneric = 5;
-        int numRow = Mathf.Clamp(Random.Range(0, maxBricksGeneric + difficulty), 2, 11);
+        int numRow = Mathf.Clamp(Random.Range(0, maxBricksGeneric + difficulty), 1, 11);
         float timeStoppedXRow = 5f  / numRow;
         float xPos, yPos;
         for(int yCoord = numRow - 1; yCoord >= 0; yCoord--){
             yPos = Mathf.Lerp(yMinPos, yMaxPos, yCoord / (float)(numRow - 1f));
-            int numCol = Mathf.Clamp(Random.Range(0, maxBricksGeneric + difficulty), 3, 10);
+            int numCol = Mathf.Clamp(Random.Range(0, maxBricksGeneric + difficulty), 2, 10);
             float timeStopped = timeStoppedXRow / numCol;
             for(int xCoord = 0; xCoord < numCol; xCoord++){
                 xPos = Mathf.Lerp(xMinPos, xMaxPos, xCoord / (float)(numCol - 1f));

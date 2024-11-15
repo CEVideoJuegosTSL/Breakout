@@ -1297,6 +1297,8 @@ MonoBehaviour:
   bricksList: []
   score: 0
   canvas: {fileID: 1477185759}
+  text: {fileID: 134484854}
+  shadow: {fileID: 1948137943}
 --- !u!4 &1657005938
 Transform:
   m_ObjectHideFlags: 0

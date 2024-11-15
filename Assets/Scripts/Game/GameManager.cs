@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -19,6 +20,7 @@ public class GameManager : MonoBehaviour
     Dictionary<int, GameObject> bricks = new Dictionary<int, GameObject>();
     Dictionary<int, GameObject> balls = new Dictionary<int, GameObject>();
 
+    public TMP_Text text, shadow;
     StaticValues sv;
     // Start is called before the first frame update
     void Start()
@@ -77,6 +79,8 @@ public class GameManager : MonoBehaviour
         if(sceneName.Equals("ProceduralScene")){
             int d = sv.GetDifficulty();
             sv.SetDifficulty(d++);
+            text.text = "Nivel " + d + " completado";
+            shadow.text = text.text;
             SceneManager.LoadScene("ProceduralScene");
         }else{
             SceneManager.LoadScene("LevelTwoScene");
