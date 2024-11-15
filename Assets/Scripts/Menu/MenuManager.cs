@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour
 {
-    public Button start, option, quit;
+    public Button start, infinite, option, quit;
 
     public AudioSource sound;
     // Start is called before the first frame update
@@ -17,13 +17,22 @@ public class MenuManager : MonoBehaviour
             sound.Play();
             Invoke("ChangeScene", 0.2f);
         });
+        infinite.onClick.AddListener(() =>
+        {
+            sound.Play();
+            Invoke("ChangeSceneInfinite", 0.2f);
+        });
         option.onClick.AddListener(() =>{
+            sound.Play();
             Invoke("OptionsInterface", 0.2f);
         });
         quit.onClick.AddListener(QuitGame);
     }
     private void ChangeScene(){
         SceneManager.LoadScene("LevelOneScene");
+    }
+    private void ChangeSceneInfinite(){
+        SceneManager.LoadScene("ProceduralScene");
     }
     // Update is called once per frame
     void Update()

@@ -12,9 +12,10 @@ public class GameManager : MonoBehaviour
     public List<GameObject> bricksList;
     public int score;
 
+    string sceneName;
     public GameObject canvas;
     int hp;
-    bool finish = false;
+    bool finish = false, start = false;
     Dictionary<int, GameObject> bricks = new Dictionary<int, GameObject>();
     Dictionary<int, GameObject> balls = new Dictionary<int, GameObject>();
 
@@ -22,9 +23,12 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        sceneName = SceneManager.GetActiveScene().name;
         canvas.SetActive(false);
-        foreach(GameObject brick in bricksList){
-            bricks.Add(brick.GetInstanceID(), brick);
+        if(!sceneName.Equals("ProceduralScene")){
+            foreach(GameObject brick in bricksList){
+                bricks.Add(brick.GetInstanceID(), brick);
+            }
         }
         sv = GameObject.Find("StaticContent").GetComponent<StaticValues>();
         hp = sv.GetLife();
@@ -40,14 +44,25 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(Input.GetKeyDown(KeyCode.D)){
+            Debug.Log("Ladrillos actuales: " + bricks.Count);
+        }
         if(Input.GetKeyDown(KeyCode.Space)){
-            if(balls.Count == 0 && !finish){
-                GameObject b = Instantiate(ballPrefab, new Vector3(paddle.transform.position.x, -2f, 0f), new Quaternion());
-                balls.Add(b.GetInstanceID(), b);
+            Debug.Log(sceneName);
+            if(sceneName.Equals("ProceduralScene")){
+                if(balls.Count == 0 && !finish && start){
+                    GameObject b = Instantiate(ballPrefab, new Vector3(paddle.transform.position.x, -2f, 0f), new Quaternion());
+                    balls.Add(b.GetInstanceID(), b);
+                }
+            }else{
+                if(balls.Count == 0 && !finish){
+                    start = true;
+                    GameObject b = Instantiate(ballPrefab, new Vector3(paddle.transform.position.x, -2f, 0f), new Quaternion());
+                    balls.Add(b.GetInstanceID(), b);
+                }
             }
         }
-        if(bricks.Count == 0){
+        if(bricks.Count == 0 && start){
             finish = true;
             ShowWin();
         }
@@ -59,10 +74,15 @@ public class GameManager : MonoBehaviour
     }
 
     private void ChangeScene(){
-        string name = SceneManager.GetActiveScene().name;
-        if(name.Equals("LevelOneScene")){
-        SceneManager.LoadScene("LevelTwoScene");}
+        if(sceneName.Equals("ProceduralScene")){
+            int d = sv.GetDifficulty();
+            sv.SetDifficulty(d++);
+            SceneManager.LoadScene("ProceduralScene");
+        }else{
+            SceneManager.LoadScene("LevelTwoScene");
+        }
     }
+    
     public void DestroyBall(GameObject inputBall){
         balls.Remove(inputBall.GetInstanceID());
         if(balls.Count == 0){
@@ -79,6 +99,10 @@ public class GameManager : MonoBehaviour
 
     public void DestroyBrick(GameObject brick){
         bricks.Remove(brick.GetInstanceID());
+    }
+
+    public void CreateBrick(GameObject inputBrick){
+        bricks.Add(inputBrick.GetInstanceID(), inputBrick);
     }
 
     public void CreateBall(GameObject inputBall){
@@ -148,5 +172,9 @@ public class GameManager : MonoBehaviour
                 Invoke("Death", 0.3f);
             break;
         }
+    }
+
+    public void ReadyToStart(){
+        start = true;
     }
 }

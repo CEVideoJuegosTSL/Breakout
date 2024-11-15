@@ -21,6 +21,9 @@ public class Brick : MonoBehaviour
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
+    public void SetHP(int hp){
+        this.hp = hp;
+    }
     // Update is called once per frame
     void Update()
     {

@@ -8,6 +8,7 @@ public class StaticValues : Singleton<StaticValues>
     public int life = 0;
     public int score;
     
+    public int difficulty = 0;
     public AudioSource song;
 
     void Start()
@@ -34,6 +35,14 @@ public class StaticValues : Singleton<StaticValues>
 
     public void SetScore(int i){
         score = i;
+    }
+
+    public int GetDifficulty(){
+        return difficulty;
+    }
+
+    public void SetDifficulty(int i){
+        difficulty = i;
     }
 
 }
