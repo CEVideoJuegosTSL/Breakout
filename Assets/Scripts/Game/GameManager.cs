@@ -12,8 +12,9 @@ public class GameManager : MonoBehaviour
     public List<GameObject> bricksList;
     public int score;
 
+    public GameObject canvas;
     int hp;
-
+    bool finish = false;
     Dictionary<int, GameObject> bricks = new Dictionary<int, GameObject>();
     Dictionary<int, GameObject> balls = new Dictionary<int, GameObject>();
 
@@ -21,26 +22,47 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        sv = GameObject.Find("StaticContent").GetComponent<StaticValues>();
-        sv.SetLife(6);
-        score = sv.GetScore();
-        hp = 6;
+        canvas.SetActive(false);
         foreach(GameObject brick in bricksList){
             bricks.Add(brick.GetInstanceID(), brick);
         }
+        sv = GameObject.Find("StaticContent").GetComponent<StaticValues>();
+        hp = sv.GetLife();
+        if(hp == 0){
+            sv.SetLife(6);
+            hp = 6;
+        }else{
+            ChangeSpriteHP();
+        }
+        score = sv.GetScore();
     }
 
     // Update is called once per frame
     void Update()
     {
+        
         if(Input.GetKeyDown(KeyCode.Space)){
-            if(balls.Count == 0){
+            if(balls.Count == 0 && !finish){
                 GameObject b = Instantiate(ballPrefab, new Vector3(paddle.transform.position.x, -2f, 0f), new Quaternion());
                 balls.Add(b.GetInstanceID(), b);
             }
         }
+        if(bricks.Count == 0){
+            finish = true;
+            ShowWin();
+        }
     }
 
+    private void ShowWin(){
+        canvas.SetActive(true);
+        Invoke("ChangeScene", 3f);
+    }
+
+    private void ChangeScene(){
+        string name = SceneManager.GetActiveScene().name;
+        if(name.Equals("LevelOneScene")){
+        SceneManager.LoadScene("LevelTwoScene");}
+    }
     public void DestroyBall(GameObject inputBall){
         balls.Remove(inputBall.GetInstanceID());
         if(balls.Count == 0){
@@ -53,6 +75,10 @@ public class GameManager : MonoBehaviour
     public void HitBrick(){
         score++;
         sv.SetScore(score);
+    }
+
+    public void DestroyBrick(GameObject brick){
+        bricks.Remove(brick.GetInstanceID());
     }
 
     public void CreateBall(GameObject inputBall){
@@ -73,40 +99,54 @@ public class GameManager : MonoBehaviour
     }
 
     private void HPDown(){
-        hp--;
+        if(!finish){
+            hp--;
+            sv.SetLife(hp);
+            ChangeSpriteHP();
+        }
+    }
+
+    public void RestoreHP(){
+        hp++;
         sv.SetLife(hp);
+        ChangeSpriteHP();
+    }
+
+    void Death(){
+        SceneManager.LoadScene("DeathScene");
+    }
+
+    private void ChangeSpriteHP(){
         switch(hp){
+            case 6:
+                heart3.GetComponent<HPVisual>().UpdateSprite(2);
+            break;
             case 5:
                 heart3.GetComponent<HPVisual>().UpdateSprite(1);
             break;
             case 4:
                 heart3.GetComponent<HPVisual>().UpdateSprite(0);
+                heart2.GetComponent<HPVisual>().UpdateSprite(2);
             break;
             case 3:
+                heart3.GetComponent<HPVisual>().UpdateSprite(0);
                 heart2.GetComponent<HPVisual>().UpdateSprite(1);
+                heart1.GetComponent<HPVisual>().UpdateSprite(2);
             break;
             case 2:
+                heart3.GetComponent<HPVisual>().UpdateSprite(0);
                 heart2.GetComponent<HPVisual>().UpdateSprite(0);
+                heart1.GetComponent<HPVisual>().UpdateSprite(2);
             break;
             case 1:
+                heart3.GetComponent<HPVisual>().UpdateSprite(0);
+                heart2.GetComponent<HPVisual>().UpdateSprite(0);
                 heart1.GetComponent<HPVisual>().UpdateSprite(1);
             break;
             case 0:
                 heart1.GetComponent<HPVisual>().UpdateSprite(0);
-                Invoke("Death", 0.5f);
+                Invoke("Death", 0.3f);
             break;
         }
-    }
-
-    public void RestoreHP(){
-        hp = 6;
-        sv.SetLife(hp);
-        heart3.GetComponent<HPVisual>().UpdateSprite(2);
-        heart2.GetComponent<HPVisual>().UpdateSprite(2);
-        heart1.GetComponent<HPVisual>().UpdateSprite(2);
-    }
-
-    void Death(){
-        SceneManager.LoadScene("DeathScene");
     }
 }

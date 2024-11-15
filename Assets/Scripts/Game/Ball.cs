@@ -15,13 +15,15 @@ public class Ball : MonoBehaviour
     public Rigidbody2D rb;
 
     GameManager gm;
-
     
     void Start()
     {
         /*GameObject paddle = GameObject.Find("Paddle");
         this.*/
         x = Random.Range(-2f,2f);
+        if(x== 0f){
+            x = 0.5f;
+        }
         rb.velocity = new Vector2(x * speed, y * speed);
         
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
@@ -54,7 +56,7 @@ public class Ball : MonoBehaviour
     void OnCollisionEnter2D(Collision2D other)
     {
         if(other.gameObject.CompareTag("Paddle")){
-            rb.velocity = new Vector2(rb.velocity.x * 1.15f, rb.velocity.y * 1.15f);
+            rb.velocity = new Vector2(rb.velocity.x * 1.05f, rb.velocity.y * 1.05f);  
         }
     }
 }

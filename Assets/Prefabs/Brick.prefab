@@ -147,7 +147,17 @@ MonoBehaviour:
   hp: 1
   brick: {fileID: 1848367406063587898}
   sr: {fileID: 6027934101134809900}
-  sprites: []
+  sprites:
+  - {fileID: 1470121955, guid: c7519595171307140b2bb9e1dd8cdb26, type: 3}
+  - {fileID: 2132039772, guid: c7519595171307140b2bb9e1dd8cdb26, type: 3}
+  - {fileID: -746439380, guid: c7519595171307140b2bb9e1dd8cdb26, type: 3}
+  - {fileID: 933462039, guid: c7519595171307140b2bb9e1dd8cdb26, type: 3}
+  - {fileID: -1493377524, guid: c7519595171307140b2bb9e1dd8cdb26, type: 3}
+  - {fileID: 2132671664, guid: c7519595171307140b2bb9e1dd8cdb26, type: 3}
+  - {fileID: 283152145, guid: c7519595171307140b2bb9e1dd8cdb26, type: 3}
+  - {fileID: 1094424594, guid: c7519595171307140b2bb9e1dd8cdb26, type: 3}
+  - {fileID: 2040550679, guid: c7519595171307140b2bb9e1dd8cdb26, type: 3}
+  - {fileID: 793679224, guid: c7519595171307140b2bb9e1dd8cdb26, type: 3}
   powerUp: {fileID: 2775383159362086144, guid: 71044be3508a6a24685e83016ebaf095, type: 3}
   hit: {fileID: 6762867415633768378}
 --- !u!82 &6762867415633768378

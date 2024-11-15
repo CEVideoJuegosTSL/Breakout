@@ -5,11 +5,10 @@ using UnityEngine;
 public class StaticValues : Singleton<StaticValues>
 {
     // Start is called before the first frame update
-    public int life;
+    public int life = 0;
     public int score;
     
     public AudioSource song;
-    public AudioClip clipSong;
 
     void Start()
     {

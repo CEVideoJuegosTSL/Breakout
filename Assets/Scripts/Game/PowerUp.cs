@@ -14,7 +14,7 @@ public class PowerUp : MonoBehaviour
     int type;
     GameManager gm;
 
-
+    public AudioSource sound;
     void Start()
     {
         StaticValues sv = GameObject.Find("StaticContent").GetComponent<StaticValues>();
@@ -65,6 +65,7 @@ public class PowerUp : MonoBehaviour
     {
         if (other.CompareTag("Paddle"))
         {
+            sound.Play();
             switch(type){
                 case 0:
                     MoreBalls();
@@ -79,11 +80,15 @@ public class PowerUp : MonoBehaviour
                     Debug.Log("PowerUp cura vida");
                     break;
             }
-            Destroy(gameObject);
+            Invoke("DestroyThis", 0.15f);
         }
         else if (other.CompareTag("Destroy"))
         {
             Destroy(gameObject);
         }
+    }
+
+    private void DestroyThis(){
+        Destroy(gameObject);
     }
 }

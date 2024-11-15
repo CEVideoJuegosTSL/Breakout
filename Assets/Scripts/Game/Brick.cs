@@ -17,7 +17,6 @@ public class Brick : MonoBehaviour
     GameManager gm;
     void Start()
     {
-        hp = sprites.Count;
         sr.sprite = sprites.ElementAt( hp - 1);
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
@@ -49,10 +48,11 @@ public class Brick : MonoBehaviour
     }
 
     private void DestroyBrick(){
-        if(Random.Range(1,6) > 1){
+        if(Random.Range(1,6) > 4){
             Vector3 position = brick.transform.position;
             Instantiate(powerUp, position, new Quaternion());
         }
+        gm.DestroyBrick(brick);
         Destroy(brick);
     }
 }

@@ -7,19 +7,24 @@ using UnityEngine.UI;
 public class MenuManager : MonoBehaviour
 {
     public Button start, option, quit;
+
+    public AudioSource sound;
     // Start is called before the first frame update
     void Start()
     {
         start.onClick.AddListener(() =>
         {
-            SceneManager.LoadScene("LevelOneScene");
+            sound.Play();
+            Invoke("ChangeScene", 0.2f);
         });
         option.onClick.AddListener(() =>{
-            OptionsInterface();
+            Invoke("OptionsInterface", 0.2f);
         });
         quit.onClick.AddListener(QuitGame);
     }
-
+    private void ChangeScene(){
+        SceneManager.LoadScene("LevelOneScene");
+    }
     // Update is called once per frame
     void Update()
     {
